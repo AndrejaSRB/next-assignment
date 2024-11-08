@@ -1,11 +1,8 @@
-import Holdings from './Holdings/Holdings';
-import env from '@/lib/env';
-import type PortfolioData from '@/types/PortfolioData';
-import PortfolioHeading from './PortfolioHeading/PortfolioHeading';
+const PREVENT_FETCH_IN_PRODUCTION = true;
 
 export default async function Portfolio() {
   // Check if we're in a build-time environment
-  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL) {
+  if (PREVENT_FETCH_IN_PRODUCTION) {
     return (
       <div>
         <p>Build-time rendering placeholder</p>
@@ -13,26 +10,16 @@ export default async function Portfolio() {
     );
   }
 
-  const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/portfolio`);
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  const data: PortfolioData = await response.json();
-
-  const { total_usd_value, portfolio_change, assets } = data;
-
-  return (
-    <>
-      <PortfolioHeading
-        totalValue={total_usd_value}
-        percentageChange={portfolio_change['24hr'].percentage_change}
-      />
-
-      <div className="mt-8.5">
-        <Holdings assets={assets} />
-      </div>
-    </>
-  );
+  //   return (
+  //     <>
+  //       <PortfolioHeading
+  //         totalValue={total_usd_value}
+  //         percentageChange={portfolio_change['24hr'].percentage_change}
+  //       />
+  //
+  //       <div className="mt-8.5">
+  //         <Holdings assets={assets} />
+  //       </div>
+  //     </>
+  //   );
 }
