@@ -18,7 +18,7 @@ const PortfolioHeading = ({
       <PercentageChangeIndicator value={percentageChange} />
     </div>
 
-    <p className="text-13px text-customGray">
+    <p className="text-md text-customGray">
       Your total portfolio is up <span className="text-white">$7,296</span> in
       last <span className="text-white">24hrs</span>
     </p>

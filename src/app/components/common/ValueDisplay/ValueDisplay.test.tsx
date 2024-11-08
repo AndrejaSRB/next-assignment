@@ -15,14 +15,14 @@ describe('ValueDisplay', () => {
     render(<ValueDisplay value={123.45} currency={Currency.USD} size="lg" />);
 
     const container = screen.getByRole('paragraph');
-    expect(container).toHaveClass('text-34px');
+    expect(container).toHaveClass('text-4xl');
   });
 
   it('renders small size correctly', () => {
     render(<ValueDisplay value={123.45} currency={Currency.USD} size="sm" />);
 
     const container = screen.getByRole('paragraph');
-    expect(container).toHaveClass('text-13px');
+    expect(container).toHaveClass('text-md');
   });
 
   it('hides currency symbol when showCurrency is false', () => {
@@ -55,14 +55,14 @@ describe('ValueDisplay', () => {
     render(<ValueDisplay value={123.45} currency={Currency.USD} size="lg" />);
 
     const decimalPart = screen.getByText('.45');
-    expect(decimalPart).toHaveClass('text-white/25', 'text-21px');
+    expect(decimalPart).toHaveClass('text-white/25', 'text-xl');
   });
 
   it('applies decimal highlighting correctly for small size', () => {
     render(<ValueDisplay value={123.45} currency={Currency.USD} size="sm" />);
 
     const decimalPart = screen.getByText('.45');
-    expect(decimalPart).toHaveClass('text-white/25', 'text-10px');
+    expect(decimalPart).toHaveClass('text-white/25', 'text-sm');
   });
 
   it('does not highlight decimals when highlightDecimals is false', () => {
@@ -76,6 +76,6 @@ describe('ValueDisplay', () => {
     );
 
     const decimalPart = screen.getByText('.45');
-    expect(decimalPart).not.toHaveClass('text-white/25', 'text-10px');
+    expect(decimalPart).not.toHaveClass('text-white/25', 'text-sm');
   });
 });

@@ -20,15 +20,14 @@ const config: Config = {
         customBlue: '#436FE4',
       },
       fontSize: {
-        '10px': '10px',
-        '13px': '13px',
-        '21px': '21px',
-        '34px': '34px',
         xs: '8px',
         sm: '10px',
+        md: '13px',
+        xl: '21px',
+        '4xl': '34px',
       },
       spacing: {
-        '8.5': '2.125rem', // 34px
+        8.5: '2.125rem', // 34px
       },
     },
   },

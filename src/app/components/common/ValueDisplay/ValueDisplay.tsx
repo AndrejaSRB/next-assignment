@@ -13,10 +13,10 @@ type ValueDisplayProps = {
   highlightDecimals?: boolean;
 };
 
-const large = 'text-34px';
-const small = 'text-13px';
-const largeDecimal = 'text-white/25 text-21px';
-const smallDecimal = 'text-white/25 text-10px';
+const large = 'text-4xl';
+const small = 'text-md';
+const largeDecimal = 'text-white/25 text-xl';
+const smallDecimal = 'text-white/25 text-sm';
 
 const ValueDisplay = ({
   value,

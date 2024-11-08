@@ -15,7 +15,10 @@ const AssetDisplay = ({
   className,
 }: AssetDisplayProps) => {
   return (
-    <div className={clsxm('flex items-center gap-2', className)}>
+    <div
+      className={clsxm('flex items-center gap-2', className)}
+      data-testid="asset-display"
+    >
       <Image
         src={iconUrl}
         alt={`${symbol} icon`}
@@ -25,7 +28,7 @@ const AssetDisplay = ({
       />
 
       <div className="flex flex-col">
-        <span className="text-13px leading-[18px]">{symbol}</span>
+        <span className="text-md leading-[18px]">{symbol}</span>
         <span className="text-xs leading-[11px] text-white/55">{label}</span>
       </div>
     </div>

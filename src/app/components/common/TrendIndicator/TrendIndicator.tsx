@@ -35,7 +35,7 @@ const TrendIndicator = ({ value }: TrendIndicatorProps) => {
           )}
         />
       )}
-      <span className="text-13px font-medium">{`${value.toFixed(1)}%`}</span>
+      <span className="text-md font-medium">{`${value.toFixed(1)}%`}</span>
     </div>
   );
 };
