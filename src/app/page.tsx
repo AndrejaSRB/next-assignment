@@ -11,7 +11,7 @@ export default function Home() {
           <h1 className="p-4 text-xl font-semibold">Portfolio dApp</h1>
         </div>
 
-        <div className="w-full border-l border-white border-opacity-10 px-4 py-8 lg:max-w-[466px] lg:px-5">
+        <div className="w-full px-4 py-8 lg:max-w-[466px] lg:border-l lg:border-white lg:border-opacity-10 lg:px-5">
           <Suspense fallback={<PortfolioSkeleton />}>
             <Portfolio />
           </Suspense>

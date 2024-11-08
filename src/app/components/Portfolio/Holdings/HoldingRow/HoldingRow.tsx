@@ -22,7 +22,7 @@ const HoldingRow = ({ assets }: HoldingRowProps) => {
         className={clsxm(
           'cursor-pointer justify-between rounded-xl p-2 transition-all duration-200',
           isExpanded && 'bg-customDarkerGray',
-          !isExpanded && 'hover:bg-customDarkerGray',
+          !isExpanded && 'lg:hover:bg-customDarkerGray',
           hasMultipleAssets && 'cursor-pointer',
         )}
       >

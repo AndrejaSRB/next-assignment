@@ -22,6 +22,18 @@ node -v  # v18.x
 2. Start the development server using `npm install dev`
 3. Browse the application on [http://localhost:3000](http://localhost:3000)
 
+## Folder structure
+
+- `src/app` contains the main application code
+- `src/components/common` contains common shared components inside wholea application
+- `src/components` contains shared components for that page (route)
+- `src/lib` contains shared libraries
+- `src/utils` contains utility functions
+- `src/hooks` contains hooks
+- `src/types` contains shared types
+- `src/fonts` contains fonts
+- `src/test` contains test utils
+
 ## Testing
 
 Learn how to test the application in [TESTING.md](./TESTING.md) file.
