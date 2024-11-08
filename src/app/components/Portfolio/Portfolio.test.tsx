@@ -3,7 +3,7 @@ import Portfolio from '../Portfolio/Portfolio';
 import env from '@/lib/env';
 import { createServer } from '@/test/server';
 import type PortfolioData from '@/types/PortfolioData';
-
+import { HttpResponse, http } from 'msw';
 // Mock sample data
 const mockPortfolioData: PortfolioData = {
   total_usd_value: 15000.5,
@@ -35,7 +35,7 @@ const mockPortfolioData: PortfolioData = {
 };
 
 // Setup MSW server using the new createServer utility
-createServer<PortfolioData>([
+const server = createServer<PortfolioData>([
   {
     url: `${env.NEXT_PUBLIC_API_URL}/portfolio`,
     method: 'get',
@@ -64,5 +64,16 @@ describe('Portfolio', () => {
 
     // Test if assets are rendered
     expect(screen.getByText('ETH')).toBeInTheDocument();
+  });
+
+  it('handles server error (500) correctly', async () => {
+    // Create server with error response
+    server.use(
+      http.get(`${env.NEXT_PUBLIC_API_URL}/portfolio`, () => {
+        return HttpResponse.error();
+      }),
+    );
+
+    await expect(Portfolio).rejects.toThrow('Failed to fetch');
   });
 });

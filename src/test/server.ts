@@ -3,55 +3,42 @@ import { setupServer } from 'msw/node';
 
 type ResponseData = Record<string, unknown>;
 interface HandlerConfig<T extends ResponseData = ResponseData> {
-  /** The URL path to mock (e.g., '/api/users') */
   url: string;
-  /** HTTP method (defaults to 'get') */
   method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
-  /** Response resolver function that returns the mock response data */
-  res: (req: Request) => Promise<T> | T;
+  res: (req: Request) => Promise<T> | T | never; // Added 'never' for error cases
 }
 
-/**
- * Creates a test server with mock API handlers for testing
- * @template T - The type of response data
- * @param handlerConfig - Array of handler configurations
- * @example
- * ```ts
- * interface UserResponse {
- *   users: Array<{ id: number; name: string }>
- * }
- *
- * createServer<UserResponse>([
- *   {
- *     url: '/api/users',
- *     method: 'get',
- *     res: () => ({
- *       users: [{ id: 1, name: 'John' }]
- *     })
- *   }
- * ])
- * ```
- */
 export function createServer<T extends ResponseData = ResponseData>(
   handlerConfig: HandlerConfig<T>[],
 ) {
-  // Transform handler configs into MSW handlers
   const handlers = handlerConfig.map((config) => {
-    // Use the specified HTTP method or default to 'get'
     const method = config.method || 'get';
 
-    // Create an MSW handler using the new v2 syntax
     return http[method](config.url, async ({ request }) => {
-      const responseData = await config.res(request);
-      return HttpResponse.json(responseData);
+      try {
+        const responseData = await config.res(request);
+        return HttpResponse.json(responseData);
+      } catch (error) {
+        // If the error is already an HttpResponse, throw it directly
+        if (error instanceof HttpResponse) {
+          throw error;
+        }
+        // Otherwise, throw a new 500 error
+        throw new HttpResponse(null, { status: 500 });
+      }
     });
   });
 
-  // Create MSW server with the handlers
   const server = setupServer(...handlers);
 
-  // Setup test lifecycle hooks
   beforeAll(() => server.listen());
-  afterEach(() => server.resetHandlers());
+  afterEach(() => {
+    server.resetHandlers();
+    // Add new handlers after reset
+    handlers.forEach((handler) => server.use(handler));
+  });
   afterAll(() => server.close());
+
+  // Return server instance for additional control if needed
+  return server;
 }
