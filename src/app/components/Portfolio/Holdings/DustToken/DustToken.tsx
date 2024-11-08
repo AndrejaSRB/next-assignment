@@ -1,5 +1,6 @@
 import DustIcon from 'public/dust-image.svg';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import { Tooltip } from 'react-tooltip';
 
 type DustTokenProps = {
   amount: number;
@@ -31,7 +32,15 @@ const DustToken = ({ amount }: DustTokenProps) => {
 
         <InformationCircleIcon
           data-testid="dust-token-information-icon"
+          data-tooltip-id="dust-tooltip"
           className="h-2 w-2 text-white/65"
+        />
+
+        <Tooltip
+          id="dust-tooltip"
+          content="Dust is simply a trace amount of cryptocurrency that's leftover after a trade or transaction."
+          place="top"
+          className="text-lg"
         />
       </div>
     </div>
