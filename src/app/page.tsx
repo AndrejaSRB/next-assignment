@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import PageContainer from './components/common/PageContainer/PageContainer';
 import Portfolio from './components/Portfolio/Portfolio';
+import PortfolioSkeleton from './components/Portfolio/Holdings/PortfolioSkeleton';
 
 export default function Home() {
   return (
@@ -12,7 +14,9 @@ export default function Home() {
         </div>
 
         <div className="w-full border-l border-white border-opacity-10 px-4 py-8 lg:max-w-[466px] lg:px-5">
-          <Portfolio />
+          <Suspense fallback={<PortfolioSkeleton />}>
+            <Portfolio />
+          </Suspense>
         </div>
       </div>
     </PageContainer>

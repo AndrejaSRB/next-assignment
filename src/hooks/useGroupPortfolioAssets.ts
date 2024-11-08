@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import type PortfolioAsset from '@/types/PortfolioAsset';
 import getDustTokens from '@/utils/getDustTokens';
+import groupBy from '@/utils/groupBy';
 
 type SortField = 'value' | 'amount';
 type SortDirection = 'asc' | 'desc';
@@ -54,14 +55,14 @@ export default function useGroupPortfolioAssets(
         return symbol.startsWith(searchTerm) || name.startsWith(searchTerm);
       });
 
-      return Object.groupBy(
+      return groupBy(
         filteredAssets,
         ({ token_symbol }) => token_symbol,
       ) as Record<string, PortfolioAsset[]>;
     }
 
     // If not searching, only sort non-dust tokens
-    const grouped = Object.groupBy(
+    const grouped = groupBy(
       nonDustTokens,
       ({ token_symbol }) => token_symbol,
     ) as Record<string, PortfolioAsset[]>;
