@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const raw = {
-  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '',
 };
 
 const schema = z.object({
