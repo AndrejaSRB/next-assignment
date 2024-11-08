@@ -2,9 +2,9 @@
 
 This Portfolio DApp enables users to connect their cryptocurrency wallets and view all their tokens across multiple blockchain networks. It provides real-time token values, helping users manage and track their portfolio conveniently in one place.
 
-| Environment | URL |
-| ----------- | --- |
-| Production  | URL |
+| Environment | URL                                      |
+| ----------- | ---------------------------------------- |
+| Production  | https://next-assignment-zeta.vercel.app/ |
 
 Learn [how to contribute](./documentation/CONTRIBUTING.md)!
 
