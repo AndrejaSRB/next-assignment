@@ -17,16 +17,39 @@ Learn [how to contribute](./documentation/CONTRIBUTING.md)!
 | ZOD         | 3.x     | Type-safe data validation library                                    |
 | JEST        | 29.x    | JavaScript testing framework for unit and integration tests          |
 
+## Running the Application
+
 ### Environment Variables
 
 Don't forget to check `.env` file for the correct environment variables. [Learn more about environment variables](./documentation/ENV_VARIABLES.md).
 
-### Running the Application
+### Dependencies
 
-After setting up your environment variables (`.env.local`), you can start the application in development mode using:
+After setting up your environment variables (`.env.local`), you have to install the dependencies and start the development server:
+
+```shell
+npm install
+```
+
+#### Development Server
+
+Once the dependencies are installed, you can start the development server:
 
 ```shell
 npm run dev
 ```
 
 This will start a development server at http://localhost:3000.
+
+#### Production Server
+
+If you want to run the application in production mode, you can use the following command:
+
+```shell
+npm run build
+npm run start
+```
+
+### Contributing
+
+If you want to contribute to the project, be sure that you read the [CONTRIBUTING.md](./documentation/CONTRIBUTING.md) file, before you start coding.
