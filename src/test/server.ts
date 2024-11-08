@@ -1,15 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
-/**
- * Type for the response data that can be returned by the handler
- */
 type ResponseData = Record<string, unknown>;
-
-/**
- * Represents the configuration for a single API handler
- * @template T - The type of response data
- */
 interface HandlerConfig<T extends ResponseData = ResponseData> {
   /** The URL path to mock (e.g., '/api/users') */
   url: string;

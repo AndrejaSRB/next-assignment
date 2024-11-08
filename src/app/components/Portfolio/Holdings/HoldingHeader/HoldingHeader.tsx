@@ -1,8 +1,10 @@
+import type PortfolioSortField from '@/types/PortfolioSortField';
+import type SortDirection from '@/types/SortDirection';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 type HoldingHeaderProps = {
-  sortField: 'value' | 'amount';
-  sortDirection: 'asc' | 'desc';
+  sortField: PortfolioSortField;
+  sortDirection: SortDirection;
   onSort: (field: 'value' | 'amount') => void;
 };
 

@@ -1,122 +1,142 @@
 'use client';
+
 import { useState, useMemo } from 'react';
 import type PortfolioAsset from '@/types/PortfolioAsset';
-import getDustTokens from '@/utils/getDustTokens';
 import groupBy from '@/utils/groupBy';
+import isDustToken from '@/utils/isDustToken';
+import type PortfolioSortField from '@/types/PortfolioSortField';
+import type SortDirection from '@/types/SortDirection';
 
-type SortField = 'value' | 'amount';
-type SortDirection = 'asc' | 'desc';
+export type GroupedAsset = {
+  symbol: string;
+  assets: PortfolioAsset[];
+  totalValue: number;
+  totalAmount: number;
+  hasDustTokens: boolean;
+  isDustGroup: boolean;
+};
 
 type GroupedPortfolioAssetsReturnType = {
-  /* Grouped assets by token symbol */
-  groupedAssets: Record<string, PortfolioAsset[]>;
-  /* Total value of dust tokens */
-  totalDustValue: number;
-  /* Array of dust tokens */
-  dustTokens: PortfolioAsset[];
+  /* Grouped assets by symbol */
+  groupedData: Record<string, GroupedAsset>;
   /* Current sort field */
-  sortField: SortField;
+  sortField: PortfolioSortField;
   /* Current sort direction */
   sortDirection: SortDirection;
-  /* Function to toggle sort direction and field */
-  toggleSort: (field: SortField) => void;
+  /* Toggle sort field */
+  toggleSort: (field: 'value' | 'amount') => void;
 };
 
 export default function useGroupPortfolioAssets(
   assets: PortfolioAsset[],
   searchQuery: string = '',
 ): GroupedPortfolioAssetsReturnType {
-  // State for sorting functionality
-  const [sortField, setSortField] = useState<SortField>('value');
+  // State management for sorting
+  const [sortField, setSortField] = useState<PortfolioSortField>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
-  // Separate dust tokens from main assets
-  const dustTokens = getDustTokens(assets);
-  const nonDustTokens = assets.filter(
-    (asset) =>
-      !dustTokens.some((dust) => dust.token_address === asset.token_address),
-  );
+  // Main data processing logic wrapped in useMemo for performance
+  const groupedData = useMemo(() => {
+    // STEP 1: Filter assets based on search query
+    const filteredAssets = assets.filter((asset) => {
+      if (!searchQuery.trim()) return true;
+      const searchTerm = searchQuery.toLowerCase().trim();
+      const symbol = asset.token_symbol.toLowerCase();
+      const name = asset.token_name.toLowerCase();
+      return symbol.includes(searchTerm) || name.includes(searchTerm);
+    });
 
-  // Calculate total value of dust tokens
-  const totalDustValue = dustTokens.reduce(
-    (sum, token) => sum + parseFloat(token.usd_value),
-    0,
-  );
-
-  // Group and sort assets with memoization
-  const groupedAssets = useMemo(() => {
-    // If searching, include all tokens in search
-    if (searchQuery.trim()) {
-      const allTokens = [...nonDustTokens, ...dustTokens];
-      const filteredAssets = allTokens.filter((asset) => {
-        const searchTerm = searchQuery.toLowerCase().trim();
-        const symbol = asset.token_symbol.toLowerCase();
-        const name = asset.token_name.toLowerCase();
-        return symbol.startsWith(searchTerm) || name.startsWith(searchTerm);
-      });
-
-      return groupBy(
-        filteredAssets,
-        ({ token_symbol }) => token_symbol,
-      ) as Record<string, PortfolioAsset[]>;
-    }
-
-    // If not searching, only sort non-dust tokens
-    const grouped = groupBy(
-      nonDustTokens,
+    // STEP 2: Initial grouping of assets by token symbol
+    const initialGrouped = groupBy(
+      filteredAssets,
       ({ token_symbol }) => token_symbol,
-    ) as Record<string, PortfolioAsset[]>;
+    );
 
-    // Convert grouped object to array for sorting
-    const sortableArray = Object.entries(grouped).map(([symbol, assets]) => {
-      const totalValue = assets?.reduce(
+    // STEP 3: Process groups and handle dust tokens
+    const processedGroups: Record<string, GroupedAsset> = {};
+    const dustOnlyTokens: PortfolioAsset[] = [];
+
+    // Process each group of assets - calculate totals and check dust status
+    Object.entries(initialGrouped).forEach(([symbol, groupAssets]) => {
+      const totalValue = groupAssets.reduce(
         (sum, asset) => sum + parseFloat(asset.usd_value),
         0,
       );
-      const totalAmount = assets?.reduce(
+      const totalAmount = groupAssets.reduce(
         (sum, asset) => sum + parseFloat(asset.amount),
         0,
       );
-      return { symbol, assets, totalValue, totalAmount };
+      const hasDustTokens = groupAssets.some((asset) => isDustToken(asset));
+      const allDust = groupAssets.every((asset) => isDustToken(asset));
+
+      // Either add to regular groups or collect dust tokens
+      if (allDust && !searchQuery) {
+        dustOnlyTokens.push(...groupAssets);
+      } else {
+        processedGroups[symbol] = {
+          symbol,
+          assets: groupAssets,
+          totalValue,
+          totalAmount,
+          hasDustTokens,
+          isDustGroup: false,
+        };
+      }
     });
 
-    // Sort array based on selected field and direction
-    sortableArray.sort((a, b) => {
-      const multiplier = sortDirection === 'desc' ? -1 : 1;
+    // STEP 4: Create special dust group if needed
+    if (dustOnlyTokens.length > 0 && !searchQuery) {
+      const totalDustValue = dustOnlyTokens.reduce(
+        (sum, token) => sum + parseFloat(token.usd_value),
+        0,
+      );
 
-      if (sortField === 'value' && a?.totalValue && b?.totalValue) {
-        return (a.totalValue - b.totalValue) * multiplier;
-      }
-      if (sortField === 'amount' && a?.totalAmount && b?.totalAmount) {
-        return (a.totalAmount - b.totalAmount) * multiplier;
-      }
-      return 0;
-    });
+      processedGroups['dust'] = {
+        symbol: 'dust',
+        assets: dustOnlyTokens,
+        totalValue: totalDustValue,
+        totalAmount: dustOnlyTokens.length,
+        hasDustTokens: true,
+        isDustGroup: true,
+      };
+    }
 
-    // Convert sorted array back to object
-    return Object.fromEntries(
-      sortableArray
-        .filter(({ assets }) => assets !== undefined)
-        .map(({ symbol, assets }) => [symbol, assets]),
-    ) as Record<string, PortfolioAsset[]>;
-  }, [nonDustTokens, dustTokens, searchQuery, sortField, sortDirection]);
+    // STEP 5: Sort the processed groups
+    const sortedEntries = Object.entries(processedGroups).sort(
+      ([keyA, a], [keyB, b]) => {
+        // If no explicit sorting is applied (initial state), put dust group at the end
+        if (!sortField && keyA === 'dust') return 1;
+        if (!sortField && keyB === 'dust') return -1;
 
-  // Toggle sort direction and field
-  const toggleSort = (field: SortField) => {
+        // Sort by selected field and direction
+        // Default sort by value
+        const multiplier = sortDirection === 'desc' ? -1 : 1;
+        if (sortField === 'value') {
+          return (a.totalValue - b.totalValue) * multiplier;
+        }
+        if (sortField === 'amount') {
+          return (a.totalAmount - b.totalAmount) * multiplier;
+        }
+        // Default sorting by value if no sort field is specified
+        return (a.totalValue - b.totalValue) * -1;
+      },
+    );
+
+    return Object.fromEntries(sortedEntries);
+  }, [assets, searchQuery, sortField, sortDirection]);
+
+  // Sort toggling function
+  const toggleSort = (field: 'value' | 'amount') => {
     if (sortField === field) {
-      // If clicking same field, toggle direction
       setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {
-      // If clicking new field, set it and default to descending
       setSortField(field);
       setSortDirection('desc');
     }
   };
 
   return {
-    groupedAssets,
-    totalDustValue,
-    dustTokens,
+    groupedData,
     sortField,
     sortDirection,
     toggleSort,

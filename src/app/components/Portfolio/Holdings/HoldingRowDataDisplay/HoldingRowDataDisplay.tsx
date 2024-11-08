@@ -12,6 +12,8 @@ type HoldingRowDataDisplayProps = {
   amount?: string;
   dustAmount?: number;
   isExpanded?: boolean;
+  hasDustTokens?: boolean;
+  isDust?: boolean;
 };
 
 const HoldingRowDataDisplay = ({
@@ -22,6 +24,8 @@ const HoldingRowDataDisplay = ({
   amount,
   dustAmount,
   isExpanded = false,
+  hasDustTokens = false,
+  isDust = false,
 }: HoldingRowDataDisplayProps) => (
   <div
     className={clsxm(
@@ -38,6 +42,7 @@ const HoldingRowDataDisplay = ({
           label={label ?? ''}
           iconUrl={iconUrl ?? ''}
           className={clsxm(isExpanded && 'ml-2')}
+          hasDustTokens={hasDustTokens || isDust}
         />
       )}
     </div>
