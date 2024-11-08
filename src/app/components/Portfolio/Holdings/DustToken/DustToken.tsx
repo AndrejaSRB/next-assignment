@@ -29,7 +29,10 @@ const DustToken = ({ amount }: DustTokenProps) => {
           Dust tokens
         </span>
 
-        <InformationCircleIcon className="h-2 w-2 text-white/65" />
+        <InformationCircleIcon
+          data-testid="dust-token-information-icon"
+          className="h-2 w-2 text-white/65"
+        />
       </div>
     </div>
   );

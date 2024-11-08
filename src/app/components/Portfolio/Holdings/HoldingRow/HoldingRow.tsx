@@ -17,6 +17,7 @@ const HoldingRow = ({ assets }: HoldingRowProps) => {
   return (
     <>
       <div
+        data-testid="holding-row"
         onClick={() => hasMultipleAssets && setIsExpanded(!isExpanded)}
         className={clsxm(
           'cursor-pointer justify-between rounded-xl p-2 transition-all duration-200',

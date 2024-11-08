@@ -1,7 +1,7 @@
-import PortfolioHeading from './PortfolioHeading';
 import Holdings from './Holdings/Holdings';
 import env from '@/lib/env';
 import type PortfolioData from '@/types/PortfolioData';
+import PortfolioHeading from './PortfolioHeading/PortfolioHeading';
 
 export default async function Portfolio() {
   const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/portfolio`);

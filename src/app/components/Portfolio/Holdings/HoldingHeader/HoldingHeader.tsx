@@ -28,6 +28,7 @@ const HoldingHeader = ({
         Total value
       </span>
       <ChevronDownIcon
+        data-testid="chevron-down-icon"
         className={`h-3 w-3 transition-colors duration-200 group-hover:text-white ${
           sortField === 'value' ? 'text-white' : ''
         } ${sortField === 'value' && sortDirection === 'asc' ? 'rotate-180' : ''}`}

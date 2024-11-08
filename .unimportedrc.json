@@ -8,15 +8,16 @@
   ],
   "ignorePatterns": ["**/node_modules/**", "public/**"],
   "ignoreUnimported": [
-    "**/page.{js,jsx,ts,tsx}",
-    "**/layout.{js,jsx,ts,tsx}",
-    "tailwind.config.ts",
+    "next.config.js",
     "jest.config.js",
-    "jest.setup.js",
-    "playwright.config.ts",
-    "src/tests/**",
-    "src/app/api/**",
-    "**/*.tests.{js,jsx,ts,tsx}",
+    "tailwind.config.js",
+    "src/app/**/page.{js,jsx,ts,tsx}",
+    "src/app/**/layout.{js,jsx,ts,tsx}",
+    "src/app/**/loading.{js,jsx,ts,tsx}",
+    "src/app/**/not-found.{js,jsx,ts,tsx}",
+    "src/app/**/error.{js,jsx,ts,tsx}",
+    "src/app/api/**/*.{js,jsx,ts,tsx}",
+    "src/test/**/*.{js,jsx,ts,tsx}",
     "**/*.test.{js,jsx,ts,tsx}",
     "**/*.spec.{js,jsx,ts,tsx}"
   ],
@@ -25,7 +26,8 @@
     "@typescript-eslint/eslint-plugin",
     "eslint-plugin-prettier",
     "next",
-    "prettier-plugin-tailwindcss"
+    "prettier-plugin-tailwindcss",
+    "jest-fixed-jsdom"
   ],
   "ignoreUnresolved": [],
   "respectGitignore": true

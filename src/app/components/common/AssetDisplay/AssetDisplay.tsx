@@ -19,13 +19,15 @@ const AssetDisplay = ({
       className={clsxm('flex items-center gap-2', className)}
       data-testid="asset-display"
     >
-      <Image
-        src={iconUrl}
-        alt={`${symbol} icon`}
-        width={21}
-        height={21}
-        className="rounded-full"
-      />
+      {iconUrl && (
+        <Image
+          src={iconUrl}
+          alt={`${symbol} icon`}
+          width={21}
+          height={21}
+          className="rounded-full"
+        />
+      )}
 
       <div className="flex flex-col">
         <span className="text-md leading-[18px]">{symbol}</span>

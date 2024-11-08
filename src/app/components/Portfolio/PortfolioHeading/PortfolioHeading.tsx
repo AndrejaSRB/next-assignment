@@ -1,6 +1,6 @@
 import Currency from '@/types/Currency';
-import ValueDisplay from '../common/ValueDisplay/ValueDisplay';
-import PercentageChangeIndicator from '../common/TrendIndicator/TrendIndicator';
+import ValueDisplay from '../../common/ValueDisplay/ValueDisplay';
+import TrendIndicator from '../../common/TrendIndicator/TrendIndicator';
 
 type PortfolioHeadingProps = {
   totalValue: number;
@@ -15,7 +15,7 @@ const PortfolioHeading = ({
     <div className="flex items-end gap-2">
       <ValueDisplay value={totalValue} currency={Currency.USD} size="lg" />
 
-      <PercentageChangeIndicator value={percentageChange} />
+      <TrendIndicator value={percentageChange} />
     </div>
 
     <p className="text-md text-customGray">
