@@ -4,6 +4,15 @@ import type PortfolioData from '@/types/PortfolioData';
 import PortfolioHeading from './PortfolioHeading/PortfolioHeading';
 
 export default async function Portfolio() {
+  // Check if we're in a build-time environment
+  if (process.env.NODE_ENV === 'production' && !process.env.VERCEL_URL) {
+    return (
+      <div>
+        <p>Build-time rendering placeholder</p>
+      </div>
+    );
+  }
+
   const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/portfolio`);
 
   if (!response.ok) {
