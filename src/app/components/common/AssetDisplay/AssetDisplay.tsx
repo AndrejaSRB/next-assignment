@@ -41,8 +41,8 @@ const AssetDisplay = ({
       </div>
 
       <div className="flex flex-col">
-        <span className="leading-14 text-md">{symbol}</span>
-        <span className="leading-11 text-xs text-white/55">
+        <span className="text-md leading-14">{symbol}</span>
+        <span className="text-xs leading-11 text-white/55">
           {ucfirst(label)}
         </span>
       </div>

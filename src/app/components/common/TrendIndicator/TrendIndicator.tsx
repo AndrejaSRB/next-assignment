@@ -14,7 +14,7 @@ const TrendIndicator = ({ value }: TrendIndicatorProps) => {
   return (
     <div
       className={clsxm(
-        'p-1.25 flex items-center justify-center gap-0.5 rounded-lg bg-white/10',
+        'flex items-center justify-center gap-0.5 rounded-lg bg-white/10 p-1.25',
         isPositive ? 'text-trands-positive' : 'text-trands-negative',
       )}
     >
@@ -35,7 +35,7 @@ const TrendIndicator = ({ value }: TrendIndicatorProps) => {
           )}
         />
       )}
-      <span className="leading-14 text-md font-medium">{`${value.toFixed(1)}%`}</span>
+      <span className="text-md font-medium leading-14">{`${value.toFixed(1)}%`}</span>
     </div>
   );
 };

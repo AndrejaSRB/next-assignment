@@ -20,7 +20,7 @@ const PortfolioHeading = ({
       <TrendIndicator value={percentageChange} />
     </div>
 
-    <p className="leading-14 text-md text-customGray">
+    <p className="text-md leading-14 text-customGray">
       Your total portfolio is {usdChange >= 0 ? 'up' : 'down'}{' '}
       <span className="text-white">
         {usdChange >= 0 ? '$' : '-$'}

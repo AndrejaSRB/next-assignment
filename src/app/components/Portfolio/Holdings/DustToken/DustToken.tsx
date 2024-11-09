@@ -19,7 +19,7 @@ const DustToken = ({ amount }: DustTokenProps) => {
         </div>
 
         {amount > 3 && (
-          <span className="leading-13 text-sm font-semibold text-customBlue">
+          <span className="text-sm font-semibold leading-13 text-customBlue">
             +{amount - 3}
           </span>
         )}

@@ -5,7 +5,7 @@ const raw = {
 };
 
 const schema = z.object({
-  NEXT_PUBLIC_API_URL: z.string().optional(),
+  NEXT_PUBLIC_API_URL: z.string().min(1),
 });
 
 const env = schema.parse(raw);

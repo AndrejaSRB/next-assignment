@@ -1,5 +1,3 @@
-// ... existing content ...
-
 ### Environment Variables
 
 Open the `.env` file in the root directory and take all the variables from there.
