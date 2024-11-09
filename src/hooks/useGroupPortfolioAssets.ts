@@ -58,24 +58,29 @@ export default function useGroupPortfolioAssets(
 
     // Process each group of assets - calculate totals and check dust status
     Object.entries(initialGrouped).forEach(([symbol, groupAssets]) => {
-      const totalValue = groupAssets.reduce(
+      // Sort assets within the group by USD value in descending order
+      const sortedAssets = [...groupAssets].sort(
+        (a, b) => parseFloat(b.usd_value) - parseFloat(a.usd_value),
+      );
+
+      const totalValue = sortedAssets.reduce(
         (sum, asset) => sum + parseFloat(asset.usd_value),
         0,
       );
-      const totalAmount = groupAssets.reduce(
+      const totalAmount = sortedAssets.reduce(
         (sum, asset) => sum + parseFloat(asset.amount),
         0,
       );
-      const hasDustTokens = groupAssets.some((asset) => isDustToken(asset));
-      const allDust = groupAssets.every((asset) => isDustToken(asset));
+      const hasDustTokens = sortedAssets.some((asset) => isDustToken(asset));
+      const allDust = sortedAssets.every((asset) => isDustToken(asset));
 
       // Either add to regular groups or collect dust tokens
       if (allDust && !searchQuery) {
-        dustOnlyTokens.push(...groupAssets);
+        dustOnlyTokens.push(...sortedAssets);
       } else {
         processedGroups[symbol] = {
           symbol,
-          assets: groupAssets,
+          assets: sortedAssets,
           totalValue,
           totalAmount,
           hasDustTokens,

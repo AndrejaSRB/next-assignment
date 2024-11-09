@@ -1,4 +1,5 @@
 import clsxm from '@/utils/clsxm';
+import ucfirst from '@/utils/ucfirst';
 import Image from 'next/image';
 import DustIcon from 'public/dust-image.svg';
 
@@ -41,7 +42,9 @@ const AssetDisplay = ({
 
       <div className="flex flex-col">
         <span className="text-md leading-[18px]">{symbol}</span>
-        <span className="text-xs leading-[11px] text-white/55">{label}</span>
+        <span className="text-xs leading-[11px] text-white/55">
+          {ucfirst(label)}
+        </span>
       </div>
     </div>
   );

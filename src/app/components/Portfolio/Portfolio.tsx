@@ -4,7 +4,11 @@ import type PortfolioData from '@/types/PortfolioData';
 import PortfolioHeading from './PortfolioHeading/PortfolioHeading';
 
 export default async function Portfolio() {
-  const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/portfolio`);
+  const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/portfolio`, {
+    next: {
+      revalidate: 3600, // 1 hour
+    },
+  });
 
   if (!response.ok) {
     throw new Error('Failed to fetch data');
@@ -19,6 +23,7 @@ export default async function Portfolio() {
       <PortfolioHeading
         totalValue={total_usd_value}
         percentageChange={portfolio_change['24hr'].percentage_change}
+        usdChange={portfolio_change['24hr'].usd_change}
       />
 
       <div className="mt-8.5">

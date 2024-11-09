@@ -19,6 +19,7 @@ const HoldingRow = ({
 }: HoldingRowProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const first = assets[0];
+
   const hasMultipleAssets = assets.length > 1;
 
   const totalValue = assets.reduce(
@@ -51,7 +52,7 @@ const HoldingRow = ({
           <HoldingRowDataDisplay
             symbol={first.token_symbol}
             label={
-              hasMultipleAssets ? `${assets.length - 1} chains` : first.chain_id
+              hasMultipleAssets ? `${assets.length} chains` : first.chain_id
             }
             iconUrl={first.logo}
             totalValue={totalValue.toString()}
@@ -67,7 +68,7 @@ const HoldingRow = ({
             <p className="mb-[10px] text-sm text-white/55">Breakdown</p>
 
             <div className="flex flex-col gap-2">
-              {assets.slice(1).map((asset, index) => {
+              {assets.map((asset, index) => {
                 const isDust = isDustToken(asset);
                 return (
                   <HoldingRowDataDisplay

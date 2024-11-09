@@ -5,6 +5,7 @@ describe('PortfolioHeading', () => {
   const defaultProps = {
     totalValue: 50000,
     percentageChange: 2.5,
+    usdChange: 7296.0,
   };
 
   it('renders the total value correctly', () => {
@@ -22,17 +23,26 @@ describe('PortfolioHeading', () => {
     expect(screen.getByText('2.5%')).toBeInTheDocument();
   });
 
-  it('renders the portfolio summary text', () => {
+  it('renders positive portfolio change text correctly', () => {
     render(<PortfolioHeading {...defaultProps} />);
 
     expect(screen.getByText(/your total portfolio is up/i)).toBeInTheDocument();
-    expect(screen.getByText('$7,296')).toBeInTheDocument();
+    expect(screen.getByText('$7,296.00')).toBeInTheDocument();
     expect(screen.getByText('24hrs')).toBeInTheDocument();
   });
 
-  it('renders with negative percentage change', () => {
-    render(<PortfolioHeading {...defaultProps} percentageChange={-2.5} />);
+  it('renders negative portfolio change text correctly', () => {
+    render(
+      <PortfolioHeading
+        {...defaultProps}
+        percentageChange={-2.5}
+        usdChange={-7296.0}
+      />,
+    );
 
-    expect(screen.getByText('-2.5%')).toBeInTheDocument();
+    expect(
+      screen.getByText(/your total portfolio is down/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText('-$7,296.00')).toBeInTheDocument();
   });
 });

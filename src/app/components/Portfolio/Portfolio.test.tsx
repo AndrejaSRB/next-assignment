@@ -34,6 +34,12 @@ const mockPortfolioData: PortfolioData = {
   ],
 };
 
+// Mock the DustIcon SVG component
+jest.mock('public/dust-image.svg', () => ({
+  __esModule: true,
+  default: () => <div data-testid="dust-icon" />,
+}));
+
 // Setup MSW server using the new createServer utility
 const server = createServer<PortfolioData>([
   {
@@ -75,5 +81,34 @@ describe('Portfolio', () => {
     );
 
     await expect(Portfolio).rejects.toThrow('Failed to fetch');
+  });
+
+  it('correctly identifies non-dust and dust tokens', async () => {
+    render(await Portfolio());
+    expect(screen.getByText('ETH')).toBeInTheDocument();
+    expect(screen.queryByTestId('dust-icon')).not.toBeInTheDocument();
+
+    // Update server to return data with lower USD value
+    const updatedMockData = {
+      ...mockPortfolioData,
+      assets: [
+        ...mockPortfolioData.assets.slice(0, -1),
+        {
+          ...mockPortfolioData.assets[1],
+          usd_value: '0.8390',
+        },
+      ],
+    };
+
+    server.use(
+      http.get(`${env.NEXT_PUBLIC_API_URL}/portfolio`, () => {
+        return HttpResponse.json(updatedMockData);
+      }),
+    );
+
+    // Re-render with updated dust token
+    render(await Portfolio());
+    expect(screen.getByText('ETH')).toBeInTheDocument();
+    expect(screen.getByTestId('dust-icon')).toBeInTheDocument();
   });
 });

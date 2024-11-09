@@ -2,14 +2,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HoldingHeader from './HoldingHeader';
 
-describe('HoldingHeader', () => {
-  const mockOnSort = jest.fn();
-  const defaultProps = {
-    sortField: 'value' as const,
-    sortDirection: 'desc' as const,
-    onSort: mockOnSort,
-  };
+const mockOnSort = jest.fn();
+const defaultProps = {
+  sortField: 'value' as const,
+  sortDirection: 'desc' as const,
+  onSort: mockOnSort,
+};
 
+describe('HoldingHeader', () => {
   beforeEach(() => {
     mockOnSort.mockClear();
   });

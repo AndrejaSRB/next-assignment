@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HoldingRow from './HoldingRow';
 import type PortfolioAsset from '@/types/PortfolioAsset';
+import ucfirst from '@/utils/ucfirst';
 
 // Mock the DustIcon SVG component
 jest.mock('public/dust-image.svg', () => ({
@@ -86,7 +87,7 @@ describe('HoldingRow', () => {
   it('renders multiple assets with collapsed view', () => {
     render(<HoldingRow assets={mockMultipleAssets} />);
 
-    expect(screen.getByText('1 chains')).toBeInTheDocument();
+    expect(screen.getByText('2 chains')).toBeInTheDocument();
     expect(screen.getByText('ETH')).toBeInTheDocument();
     expect(screen.queryByText('Breakdown')).not.toBeInTheDocument();
   });
@@ -98,7 +99,7 @@ describe('HoldingRow', () => {
     await userEvent.click(rowElement);
 
     expect(screen.getByText('Breakdown')).toBeInTheDocument();
-    expect(screen.getByText('arb')).toBeInTheDocument();
+    expect(screen.getByText(ucfirst('arb'))).toBeInTheDocument();
   });
 
   it('does not expand when clicked with single asset', async () => {
@@ -149,7 +150,7 @@ describe('Dust token handling', () => {
     const mixedAssets = [...mockMultipleAssets, ...mockDustAssets];
     render(<HoldingRow assets={mixedAssets} hasDustTokens={true} />);
 
-    expect(screen.getByText('2 chains')).toBeInTheDocument();
+    expect(screen.getByText('3 chains')).toBeInTheDocument();
     expect(screen.getByTestId('dust-icon')).toBeInTheDocument();
   });
 });
