@@ -14,21 +14,19 @@ const DustToken = ({ amount }: DustTokenProps) => {
       <div className="flex items-center gap-1">
         <div className="flex -space-x-1 overflow-hidden">
           {[...Array(iconsToShow)].map((_, index) => (
-            <DustIcon key={index} className="h-[13px] w-[13px]" />
+            <DustIcon key={index} className="h-3.25 w-3.25" />
           ))}
         </div>
 
         {amount > 3 && (
-          <span className="text-sm font-semibold leading-[13px] text-customBlue">
+          <span className="leading-13 text-sm font-semibold text-customBlue">
             +{amount - 3}
           </span>
         )}
       </div>
 
       <div className="gap-1/2 flex items-center">
-        <span className="text-xs leading-[10px] text-white/55">
-          Dust tokens
-        </span>
+        <span className="text-xs leading-10 text-white/55">Dust tokens</span>
 
         <InformationCircleIcon
           data-testid="dust-token-information-icon"

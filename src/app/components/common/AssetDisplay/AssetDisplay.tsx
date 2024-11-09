@@ -33,16 +33,16 @@ const AssetDisplay = ({
             className="rounded-full"
           />
         ) : (
-          <div className="h-[21px] w-[21px] rounded-full bg-customDarkGray" />
+          <div className="h-5.25 w-5.25 rounded-full bg-customDarkGray" />
         )}
         {hasDustTokens && (
-          <DustIcon className="absolute bottom-0 right-0 h-[10px] w-[10px]" />
+          <DustIcon className="absolute bottom-0 right-0 h-2.5 w-2.5" />
         )}
       </div>
 
       <div className="flex flex-col">
-        <span className="text-md leading-[18px]">{symbol}</span>
-        <span className="text-xs leading-[11px] text-white/55">
+        <span className="leading-14 text-md">{symbol}</span>
+        <span className="leading-11 text-xs text-white/55">
           {ucfirst(label)}
         </span>
       </div>

@@ -27,7 +27,22 @@ const config: Config = {
         '4xl': '34px',
       },
       spacing: {
+        1.25: '0.3125rem', // 5px
+        2.5: '0.625rem', // 10px
+        3.25: '0.8125rem', // 13px
+        5.25: '1.3125rem', // 21px
         8.5: '2.125rem', // 34px
+      },
+      lineHeight: {
+        10: '10px',
+        11: '11px',
+        12: '12px',
+        13: '13px',
+        14: '18px',
+        40: '40px',
+      },
+      borderRadius: {
+        '3xl': '21px',
       },
     },
   },

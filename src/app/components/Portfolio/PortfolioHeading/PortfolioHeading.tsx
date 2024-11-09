@@ -20,10 +20,11 @@ const PortfolioHeading = ({
       <TrendIndicator value={percentageChange} />
     </div>
 
-    <p className="text-md text-customGray">
+    <p className="leading-14 text-md text-customGray">
       Your total portfolio is {usdChange >= 0 ? 'up' : 'down'}{' '}
       <span className="text-white">
         {usdChange >= 0 ? '$' : '-$'}
+
         {Math.abs(usdChange).toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,

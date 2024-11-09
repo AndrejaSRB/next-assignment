@@ -13,8 +13,8 @@ type ValueDisplayProps = {
   highlightDecimals?: boolean;
 };
 
-const large = 'text-4xl';
-const small = 'text-md';
+const large = 'text-4xl leading-40';
+const small = 'text-md leading-14';
 const largeDecimal = 'text-white/25 text-xl';
 const smallDecimal = 'text-white/25 text-sm';
 

@@ -63,9 +63,9 @@ const HoldingRow = ({
 
         {isExpanded && hasMultipleAssets && (
           <div className="bg-customDarkerGray">
-            <div className="my-[10px] border border-white border-opacity-5" />
+            <div className="my-2.5 border border-white border-opacity-5" />
 
-            <p className="mb-[10px] text-sm text-white/55">Breakdown</p>
+            <p className="mb-2.5 text-sm text-white/55">Breakdown</p>
 
             <div className="flex flex-col gap-2">
               {assets.map((asset, index) => {

@@ -20,8 +20,8 @@ const Holdings = ({ assets }: HoldingsProps) => {
   return (
     <Card>
       <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-2">
-          <h1 className="text-2xl font-semibold">Holdings</h1>
+        <div className="gap-3.25 flex items-center justify-between">
+          <h1 className="text-5.25 font-semibold">Holdings</h1>
           <SearchInput
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}

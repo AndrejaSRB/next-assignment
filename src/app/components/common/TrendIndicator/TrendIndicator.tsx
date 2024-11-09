@@ -14,7 +14,7 @@ const TrendIndicator = ({ value }: TrendIndicatorProps) => {
   return (
     <div
       className={clsxm(
-        'flex items-center justify-center gap-0.5 rounded-lg bg-white/10 p-[5px]',
+        'p-1.25 flex items-center justify-center gap-0.5 rounded-lg bg-white/10',
         isPositive ? 'text-trands-positive' : 'text-trands-negative',
       )}
     >
@@ -30,12 +30,12 @@ const TrendIndicator = ({ value }: TrendIndicatorProps) => {
         <ArrowTrendingDownIcon
           data-testid="trending-down-icon"
           className={clsxm(
-            'h-[13px] w-[13px]',
+            'h-3.25 w-3.25',
             isPositive ? 'text-trands-positive' : 'text-trands-negative',
           )}
         />
       )}
-      <span className="text-md font-medium">{`${value.toFixed(1)}%`}</span>
+      <span className="leading-14 text-md font-medium">{`${value.toFixed(1)}%`}</span>
     </div>
   );
 };
